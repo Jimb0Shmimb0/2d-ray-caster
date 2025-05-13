@@ -1,24 +1,32 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import numpy as np
 
-# Create figure and axis
+# Create figure and axes
 fig, ax = plt.subplots()
-print(type(ax))
-print(type(0))
 
-"""bound = Boundary(0,0,1,2,ax)
-bound.draw()"""
+# Define vector components (U, V)
+U = [1, 0, -1]
+V = [0, 1, -1]
 
+# Create matching origins for each vector
+X = [0, 0, 0]  # x-coordinates of origins
+Y = [0, 0, 0]  # y-coordinates of origins
 
-# Set up the plot
+# Plot vectors
+ax.quiver(X, Y, U, V, angles='xy', scale_units='xy', scale=1, color='green')
+
+# Add a circle with no fill
+circle = patches.Circle((0, 0), radius=1.5, fill=False, edgecolor='blue', linewidth=2)
+ax.add_patch(circle)
+
+# Remove axes, labels, grid, and everything else
+ax.set_axis_off()
+
+# Set limits and aspect
+ax.set_xlim(-2, 2)
+ax.set_ylim(-2, 2)
 ax.set_aspect('equal')
-ax.set_xlim(-1, 3)
-ax.set_ylim(-1, 3)
-ax.axis('off')
 
-
-ax.quiver(0, 0, 1, 1, angles='xy', scale_units='xy', scale=1, color='black')
-ax.plot([2, 2], [-1, 3], color='black', linewidth=2)
-plt.draw()
-
-# Keep the window open
+# Show plot
 plt.show()
