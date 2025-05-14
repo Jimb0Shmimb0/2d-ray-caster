@@ -15,6 +15,8 @@ class Source(Object):
             (x1 - constants.SOURCE_CIRCLE_RADIUS, y1, x1, y1 - constants.SOURCE_CIRCLE_RADIUS),
             (x1, y1 - constants.SOURCE_CIRCLE_RADIUS, x1 + constants.SOURCE_CIRCLE_RADIUS, y1)
         ]
+
+        self.radius = constants.SOURCE_CIRCLE_RADIUS
         self.is_currently_a_sink = True
 
     def draw(self) -> None:
