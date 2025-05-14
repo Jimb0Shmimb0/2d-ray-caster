@@ -1,32 +1,19 @@
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-import numpy as np
+from Setup import Setup
 
-# Create figure and axes
-fig, ax = plt.subplots()
+def main():
+    setup = Setup()
 
-# Define vector components (U, V)
-U = [1, 0, -1]
-V = [0, 1, -1]
+    # Define walls
+    setup.set_wall(-3, 0, -3, 2)
+    setup.set_wall(-3, 0, 3, 0)
+    setup.set_wall(-3, 2, 3, 2)
+    setup.set_wall(3, 0, 3, 2)
 
-# Create matching origins for each vector
-X = [0, 0, 0]  # x-coordinates of origins
-Y = [0, 0, 0]  # y-coordinates of origins
+    setup.set_wall(-1.5, 1, 1.5, 1)
 
-# Plot vectors
-ax.quiver(X, Y, U, V, angles='xy', scale_units='xy', scale=1, color='green')
+    setup.set_source(-2.25, 1.5)
+    setup.set_source(2.25,0.5)
+    setup.draw()
 
-# Add a circle with no fill
-circle = patches.Circle((0, 0), radius=1.5, fill=False, edgecolor='blue', linewidth=2)
-ax.add_patch(circle)
-
-# Remove axes, labels, grid, and everything else
-ax.set_axis_off()
-
-# Set limits and aspect
-ax.set_xlim(-2, 2)
-ax.set_ylim(-2, 2)
-ax.set_aspect('equal')
-
-# Show plot
-plt.show()
+if __name__ == "__main__":
+    main()

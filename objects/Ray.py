@@ -1,7 +1,7 @@
 from abc import ABC
 from matplotlib import axes, pyplot as plt
 import constants
-import Object
+from .Object import Object
 
 
 class Ray(Object):
