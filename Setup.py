@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-import constants
-from constants import INF
+from constants_and_enums import constants
+from constants_and_enums.constants import INF
 from objects.Panel import Panel
 from objects.Source import Source
 from objects.Wall import Wall
@@ -22,6 +22,9 @@ class Setup:
         self.Y_MAX = -INF
         self.X_MIN = INF
         self.Y_MIN = INF
+
+        # Bools
+        self.drawn = False
 
     def set_wall(self, x1: float, y1: float, x2: float, y2: float):
         self.resize_window_with_line(x1, y1, x2, y2)
@@ -53,10 +56,23 @@ class Setup:
             [source.draw() for source in self.sources] if self.sources else None
 
             plt.show()
+            self.drawn = True
             return
 
         print("No objects set!")
 
+    def run(self):
+        if self.drawn:
+            # For each node:
+                # Set the node as a SOURCE, the rests are going to be sinks
+                    # Cast rays
+            pass
+
+
+
+    ####
+    # PRIVATE
+    ####
     def resize_window_with_line(self, x1: float, y1: float, x2: float, y2: float) -> None:
         if min(x1, x2) < self.X_MIN:
             self.X_MIN = min(x1, x2)
