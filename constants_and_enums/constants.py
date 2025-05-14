@@ -8,8 +8,9 @@ HEARING_THRESHOLD = 25 # In decibels
 
 # Object dimensions, etc.
 SOURCE_CIRCLE_RADIUS = 0.25
+VECTOR_SIZE = 0.001
 INF = math.inf
-NO_OF_SEGMENTS = 10
+NO_OF_SEGMENTS = 50
 
 WINDOW_MARGIN = 1
-TICK = 0.1
+TICK = 0.005

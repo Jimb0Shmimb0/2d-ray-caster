@@ -60,7 +60,6 @@ class Setup:
 
             plt.draw()
             plt.pause(1)
-            input("Finished Drawing, set drawn to TRUE. ENTER TO CONTINUE")
             self.drawn = True
             return
 

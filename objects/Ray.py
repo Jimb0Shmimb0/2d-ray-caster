@@ -34,16 +34,16 @@ class Ray(Object):
         print(" --- Iterating through walls")
         for wall in self.walls:
             if intersection_exits_between_ray_and_line(x1, y1, x1 + direction_x, y1 + direction_y, wall.x1, wall.y1, wall.x2, wall.y2):
-                t_and_u = calculate_intersection_of_ray_and_line(x1, y1, x1 + direction_x, y1 + direction_y, wall.x1, wall.y1, wall.x2, wall.y2)
-                print(f"Adding t_and_u: {t_and_u}")
-                self.candidates.append((t_and_u, SurfaceType.WALL, wall.x2 - wall.x1, wall.y2 - wall.y1))
+                t, u = calculate_intersection_of_ray_and_line(x1, y1, x1 + direction_x, y1 + direction_y, wall.x1, wall.y1, wall.x2, wall.y2)
+                print(f"Adding t_and_u: {t, u}")
+                self.candidates.append((t, u, SurfaceType.WALL, wall.x2 - wall.x1, wall.y2 - wall.y1))
         print(self.candidates)
 
         print(" --- Iterating through panels")
         for panel in self.panels:
             if intersection_exits_between_ray_and_line(x1, y1, x1 + direction_x, y1 + direction_y, panel.x1, panel.y1, panel.x2, panel.y2):
-                t_and_u = calculate_intersection_of_ray_and_line(x1, y1, x1 + direction_x, y1 + direction_y, panel.x1, panel.y1, panel.x2, panel.y2)
-                self.candidates.append((t_and_u, SurfaceType.PANEL, panel.x2 - panel.x1, panel.y2 - panel.y1))
+                t, u = calculate_intersection_of_ray_and_line(x1, y1, x1 + direction_x, y1 + direction_y, panel.x1, panel.y1, panel.x2, panel.y2)
+                self.candidates.append((t, u, SurfaceType.PANEL, panel.x2 - panel.x1, panel.y2 - panel.y1))
         print(self.candidates)
         print(" --- Iterating through sources")
         for source in self.sources:
@@ -51,12 +51,12 @@ class Ray(Object):
                 for coord in source.detection_line_coordinates:
                     x3, y3, x4, y4 = coord
                     if intersection_exits_between_ray_and_line(x1, y1, x1 + direction_x, y1 + direction_y, x3, y3, x4, y4):
-                        t_and_u = calculate_intersection_of_ray_and_line(x1, y1, x1 + direction_x, y1 + direction_y, x3, y3, x4, y4)
-                        self.candidates.append((t_and_u, SurfaceType.SOURCE, x4 - x3, y4 - y3))
+                        t, u = calculate_intersection_of_ray_and_line(x1, y1, x1 + direction_x, y1 + direction_y, x3, y3, x4, y4)
+                        self.candidates.append((t, u, SurfaceType.SOURCE, x4 - x3, y4 - y3))
         print(self.candidates)
         print(" --- Sorting")
         self.candidates.sort()
-        (closest_t, closest_u), surface_type, wall_direction_x, wall_direction_y = self.candidates[0]
+        closest_t, closest_u, surface_type, wall_direction_x, wall_direction_y = self.candidates[0]
         print(f" --- Closest t: {closest_t}")
 
         direction_vector = np.array([direction_x, direction_y])
@@ -94,9 +94,9 @@ class Ray(Object):
             self.distance_travelled = distance_to_threshold(db_level)
 
     def draw(self) -> None:
-        print(f"-----------DRAWING QUIVER{self.x1, self.x2, self.y1, self.y2}")
+        print(f"-----------DRAWING QUIVER{self.x1, self.x2, self.x2 - self.x1, self.y2 - self.y1}")
 
-        self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='black')
+        quiver = self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='black', width=constants.VECTOR_SIZE, headwidth=constants.VECTOR_SIZE)
         plt.draw()
         plt.pause(constants.TICK)
 
@@ -118,10 +118,11 @@ class Ray(Object):
                     if reflected_ray.reached_sink:
                         self.reached_sink = True
 
-        if not self.reached_sink:
-            del self
+        quiver.remove()
+        if self.reached_sink:
+            quiver = self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='blue', width=constants.VECTOR_SIZE, headwidth=constants.VECTOR_SIZE)
 
-        input()
+
 
 
 
