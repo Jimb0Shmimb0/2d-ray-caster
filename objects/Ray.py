@@ -96,7 +96,7 @@ class Ray(Object):
     def draw(self) -> None:
         print(f"-----------DRAWING QUIVER{self.x1, self.x2, self.x2 - self.x1, self.y2 - self.y1}")
 
-        quiver = self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='black', width=constants.VECTOR_SIZE, headwidth=constants.VECTOR_SIZE)
+        quiver = self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='black', width=constants.VECTOR_SIZE)
         plt.draw()
         plt.pause(constants.TICK)
 
@@ -120,7 +120,7 @@ class Ray(Object):
 
         quiver.remove()
         if self.reached_sink:
-            quiver = self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='blue', width=constants.VECTOR_SIZE, headwidth=constants.VECTOR_SIZE)
+            quiver = self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='blue', width=constants.VECTOR_SIZE)
 
 
 

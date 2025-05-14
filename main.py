@@ -49,8 +49,7 @@ def config_2():
 
     # Sources in different regions
     setup.set_source(-5.5, -2.5)
-    setup.set_source(4.5, 2.5)
-    setup.set_source(0.5, 0.5)
+    setup.set_source(2.5, 2.5)
 
     setup.draw()
     setup.run()
