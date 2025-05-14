@@ -15,6 +15,7 @@ class Source(Object):
             (x1 - constants.SOURCE_CIRCLE_RADIUS, y1, x1, y1 - constants.SOURCE_CIRCLE_RADIUS),
             (x1, y1 - constants.SOURCE_CIRCLE_RADIUS, x1 + constants.SOURCE_CIRCLE_RADIUS, y1)
         ]
+        self.is_currently_a_sink = True
 
     def draw(self) -> None:
         self.ax.add_patch(patches.Circle((self.x1, self.y1), radius=constants.SOURCE_CIRCLE_RADIUS, fill=False, edgecolor='black', linewidth=2))

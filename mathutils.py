@@ -2,12 +2,14 @@ import math
 from constants_and_enums import constants
 
 
-def decibels_after_x_meters(x: float) -> float:
-    return constants.SOURCE_SOUND - 20 * math.log10(x)
+def decibels_after_x_meters(x: float, decibels: float) -> float:
+    return decibels - 20 * math.log10(x)
 
+def reflected_sound_in_decibels(decibels_in: float, SAC: float) -> float:
+    return decibels_in + 10 * math.log10(1 - SAC)
 
-def reflected_sound_in_decibels(decibels_in: float) -> float:
-    return decibels_in + 10 * math.log10(1 - constants.SOUND_ABSORPTION_COEFFICIENT)
+def distance_to_threshold(decibels: float):
+    return 10 ** ((decibels - constants.HEARING_THRESHOLD)/20)
 
 def intersection_exits_between_ray_and_line(x1 ,y1, x2, y2, x3, y3, x4, y4):
     denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
@@ -30,4 +32,14 @@ def calculate_intersection_of_ray_and_line(x1 ,y1, x2, y2, x3, y3, x4, y4):
         return t, u
 
 
+def reflected_vector(direction_x, direction_y, wall_direction_x, wall_direction_y):
+
+    theta = math.atan2(-wall_direction_x, wall_direction_y)
+    cos_2t = math.cos(2 * theta)
+    sin_2t = math.sin(2 * theta)
+
+    x_prime = cos_2t * direction_x + sin_2t * direction_y
+    y_prime = sin_2t * direction_x - cos_2t * direction_y
+
+    return x_prime, y_prime
 

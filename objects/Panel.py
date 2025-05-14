@@ -4,7 +4,7 @@ from .Object import Object
 
 
 class Panel(Object):
-    absorption = constants.SOUND_ABSORPTION_COEFFICIENT
+    absorption = constants.PANEL_SOUND_ABSORPTION_COEFF
 
     def __init__(self, x1: float, y1: float, x2: float, y2: float, ax: axes.Axes):
         super().__init__(x1, y1, ax)

@@ -1,6 +1,7 @@
 import math
 
-SOUND_ABSORPTION_COEFFICIENT = 0.5
+WALL_SOUND_ABSORPTION_COEFF = 0.5
+PANEL_SOUND_ABSORPTION_COEFF = 0.7
 SOURCE_SOUND = 60 # In decibels, From 1 meter away from the source
 HEARING_THRESHOLD = 25 # In decibels
 
@@ -11,3 +12,4 @@ INF = math.inf
 
 
 WINDOW_MARGIN = 1
+TICK = 0.01
