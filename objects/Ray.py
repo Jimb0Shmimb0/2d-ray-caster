@@ -67,6 +67,7 @@ class Ray(Object):
 
         if self.hitting_surface_type == SurfaceType.SOURCE:
             self.reached_sink = True
+
         if self.distance_travelled > distance_to_threshold(db_level):
             resulting_vector = distance_to_threshold(db_level) * unit_direction
 

@@ -1,3 +1,5 @@
+import sys
+
 from setup.Setup import Setup
 
 def config_1():
@@ -55,7 +57,10 @@ def config_2():
     setup.run()
 
 def main():
-    config_2()
+    number_of_configurations = 2
+    choice = input(f"Choose configuration (1 - {number_of_configurations}): ").strip()
+    configs = {"1": config_1, "2": config_2}
+    configs.get(choice, config_1)()
 
 if __name__ == "__main__":
     main()
