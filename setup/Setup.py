@@ -1,8 +1,8 @@
 import math
 
 import matplotlib.pyplot as plt
-from constants_and_enums import constants
-from constants_and_enums.constants import INF
+from constants_enums_utils import constants
+from constants_enums_utils.constants import INF
 from objects.Panel import Panel
 from objects.Ray import Ray
 from objects.Source import Source
@@ -63,20 +63,13 @@ class Setup:
             self.drawn = True
             return
 
-        print("No objects set!")
-
     def run(self):
 
         if self.drawn:
-            print("Drawn")
             for source in self.sources:
-                print("############### Printing Sources")
                 source.is_currently_a_sink = False
                 for i in range(constants.NO_OF_SEGMENTS):
                     angle = i * ((2 * math.pi)/constants.NO_OF_SEGMENTS)
-                    print("###########################################")
-                    print("Making NEW RAY FROM SOURCE")
-                    print("###########################################")
                     ray = Ray(source.x1 + source.radius * math.cos(angle), source.y1 + source.radius * math.sin(angle), math.cos(angle), math.sin(angle), constants.SOURCE_SOUND, self.ax, self.walls, self.panels, self.sources)
                     ray.draw()
                 source.is_currently_a_sink = True

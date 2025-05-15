@@ -1,6 +1,6 @@
 from matplotlib import axes
 import matplotlib.patches as patches
-from constants_and_enums import constants
+from constants_enums_utils import constants
 from .Object import Object
 
 
@@ -25,6 +25,3 @@ class Source(Object):
             x_start, y_start, x_end, y_end = coord
             self.ax.plot([x_start, x_end], [y_start, y_end], color='blue', linewidth=0.5)
 
-    def cast(self) -> None:
-        # Add logic to cast rays out in different directions (x, y, dirx, diry)
-        pass

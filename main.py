@@ -1,4 +1,4 @@
-from Setup import Setup
+from setup.Setup import Setup
 
 def config_1():
     setup = Setup()
