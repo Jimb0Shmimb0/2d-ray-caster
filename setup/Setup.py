@@ -68,12 +68,12 @@ class Setup:
         if self.drawn:
             for source in self.sources:
                 source.is_currently_a_sink = False
-                for i in range(constants.NO_OF_SEGMENTS):
-                    angle = i * ((2 * math.pi)/constants.NO_OF_SEGMENTS)
+                for i in range(constants.NUM_RAYS):
+                    angle = i * ((2 * math.pi) / constants.NUM_RAYS)
                     ray = Ray(source.x1 + source.radius * math.cos(angle), source.y1 + source.radius * math.sin(angle), math.cos(angle), math.sin(angle), constants.SOURCE_SOUND, self.ax, self.walls, self.panels, self.sources)
                     ray.draw()
                 source.is_currently_a_sink = True
-            pass
+            plt.show()
 
     ####
     # PRIVATE
