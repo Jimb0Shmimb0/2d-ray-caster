@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-from constants_enums_utils import constants
+import constants
 
 
 def decibels_after_x_meters(x: float, decibels: float) -> float:
@@ -12,7 +12,7 @@ def reflected_sound_in_decibels(decibels_in: float, SAC: float) -> float:
     return decibels_in + 10 * math.log10(1 - SAC)
 
 def distance_to_threshold(decibels: float):
-    return 10 ** ((decibels - constants.HEARING_THRESHOLD)/20)
+    return 10 ** ((decibels - constants.HEARING_THRESHOLD) / 20)
 
 def intersection_exits_between_ray_and_line(x1 ,y1, x2, y2, x3, y3, x4, y4):
     denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)

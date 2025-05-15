@@ -1,10 +1,10 @@
-from constants_enums_utils.mathutils import calculate_intersection_of_ray_and_line, distance_to_threshold, decibels_after_x_meters, \
+from utils.mathutils import calculate_intersection_of_ray_and_line, distance_to_threshold, decibels_after_x_meters, \
     reflected_sound_in_decibels, reflected_vector
-from constants_enums_utils.mathutils import intersection_exits_between_ray_and_line
+from utils.mathutils import intersection_exits_between_ray_and_line
 from typing import List
 from matplotlib import pyplot as plt, axes
-from constants_enums_utils import constants
-from constants_enums_utils.surface_types import SurfaceType
+import constants
+from utils.surface_types import SurfaceType
 from .Object import Object
 from .Panel import Panel
 from .Source import Source
@@ -52,6 +52,10 @@ class Ray(Object):
         self.candidates.sort()
         closest_t, closest_u, surface_type, wall_direction_x, wall_direction_y = self.candidates[0]
 
+        self.hitting_surface_type = surface_type
+        if self.hitting_surface_type == SurfaceType.SOURCE:
+            self.reached_sink = True
+
         direction_vector = np.array([direction_x, direction_y])
         norm = np.linalg.norm(direction_vector)
         unit_direction = direction_vector / norm
@@ -60,37 +64,39 @@ class Ray(Object):
         self.y2 = y1 + closest_t * unit_direction[1]
         self.distance_travelled = closest_t * norm
 
-        self.distance_travelled = np.linalg.norm(np.array([self.x2 - x1, self.y2 - y1]))
-        self.hitting_surface_type = surface_type
+        # self.distance_travelled = np.linalg.norm(np.array([self.x2 - x1, self.y2 - y1]))
+
         self.hitting_wall_direction_x = wall_direction_x
         self.hitting_wall_direction_y = wall_direction_y
 
-        if self.hitting_surface_type == SurfaceType.SOURCE:
-            self.reached_sink = True
+
 
         if self.distance_travelled > distance_to_threshold(db_level):
             resulting_vector = distance_to_threshold(db_level) * unit_direction
 
-            self.new_direction_x = x1 + resulting_vector[0]
-            self.new_direction_y = y1 + resulting_vector[1]
+            self.x2 = x1 + resulting_vector[0]
+            self.y2 = y1 + resulting_vector[1]
             self.can_rebound = False
+            self.reached_sink = False
             self.hitting_surface_type = None
             self.distance_travelled = distance_to_threshold(db_level)
 
     def draw(self) -> None:
 
+        # Draw the vector
         quiver = self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='black', width=constants.VECTOR_SIZE)
         plt.draw()
-        plt.pause(constants.TICK)
+        plt.pause(constants.TICK) # Pause for a tick before moving on
 
+        # If the vector
         if self.can_rebound:
             db_at_x2_y2 = decibels_after_x_meters(self.distance_travelled, self.db_level)
             if db_at_x2_y2 > constants.HEARING_THRESHOLD:
                 reflected_db = None
                 if self.hitting_surface_type == SurfaceType.WALL:
-                    reflected_db = reflected_sound_in_decibels(self.db_level, Wall.absorption)
+                    reflected_db = reflected_sound_in_decibels(db_at_x2_y2, Wall.absorption)
                 if self.hitting_surface_type == SurfaceType.PANEL:
-                    reflected_db = reflected_sound_in_decibels(self.db_level, Panel.absorption)
+                    reflected_db = reflected_sound_in_decibels(db_at_x2_y2, Panel.absorption)
                 if reflected_db and reflected_db > constants.HEARING_THRESHOLD:
                     reflected_x, reflected_y = reflected_vector(self.direction_x, self.direction_y, self.hitting_wall_direction_x, self.hitting_wall_direction_y)
                     reflected_ray = Ray(self.x2, self.y2, reflected_x, reflected_y, reflected_db, self.ax, self.walls, self.panels, self.sources)

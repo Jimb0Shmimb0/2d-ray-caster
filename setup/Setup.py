@@ -1,8 +1,6 @@
 import math
-
 import matplotlib.pyplot as plt
-from constants_enums_utils import constants
-from constants_enums_utils.constants import INF
+import constants
 from objects.Panel import Panel
 from objects.Ray import Ray
 from objects.Source import Source
@@ -10,6 +8,7 @@ from objects.Wall import Wall
 
 
 class Setup:
+    INF = math.inf
 
     def __init__(self):
         self.ax = plt.subplot()
@@ -21,10 +20,10 @@ class Setup:
         self.obj_count = 0
 
         # For window sizing
-        self.X_MAX = -INF
-        self.Y_MAX = -INF
-        self.X_MIN = INF
-        self.Y_MIN = INF
+        self.X_MAX = -Setup.INF
+        self.Y_MAX = -Setup.INF
+        self.X_MIN = Setup.INF
+        self.Y_MIN = Setup.INF
 
         # Bools
         self.drawn = False
