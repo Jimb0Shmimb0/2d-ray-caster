@@ -82,53 +82,27 @@ def config_3():
 
 def config_4():
     setup = Setup()
-    # Enclosing boundary — irregular polygon-like outer walls
-    setup.set_wall(-8, -5, 8, -5)
-    setup.set_wall(8, -5, 8, 6)
-    setup.set_wall(8, 6, -7, 6)
-    setup.set_wall(-7, 6, -8, 4)
-    setup.set_wall(-8, 4, -8, -5)
 
-    # Interior madness
+    # Outer bounding rectangle (scaled from -6..6 to -12..12 and -2..2 to -4..4)
+    setup.set_wall(-12, -4, 12, -4)
+    setup.set_wall(12, -4, 12, 4)
+    setup.set_wall(12, 4, -12, 4)
+    setup.set_wall(-12, 4, -12, -4)
 
-    # Central cross chaos
-    setup.set_wall(-2, -1, 2, -1)
-    setup.set_wall(0, -3, 0, 2)
-    setup.set_wall(-2, 1, 2, 1)
-    setup.set_wall(-1, -3, -1, -1)
-    setup.set_wall(1, -1, 1, 3)
+    # Vertical dividers (scaled x = -2, 2 → -4, 4)
+    setup.set_panel(-1.5, -2, -1.5, 2)
+    setup.set_panel(1.5, -2, 1.5, 2)
 
-    # Jagged zigzag snake in bottom left
-    setup.set_wall(-7, -4, -6, -3)
-    setup.set_wall(-6, -3, -7, -2)
-    setup.set_wall(-7, -2, -6, -1)
-    setup.set_wall(-6, -1, -7, 0)
+    # Horizontal divider (scaled y = 0 → 0)
+    setup.set_panel(-4.5, 0, 4.5, 0)
 
-    # Triangular dead zone
-    setup.set_wall(3, 1, 5, 2)
-    setup.set_wall(5, 2, 4, 4)
-    setup.set_wall(4, 4, 3, 1)
-
-    # Random floating walls
-    setup.set_wall(6, -2, 7, 1)
-    setup.set_wall(-3, 3, -1, 4)
-    setup.set_wall(1.5, 4.5, 3, 5)
-    setup.set_wall(-4, 5, -3.5, 3)
-
-    # Left-top blocking box
-    setup.set_wall(-6, 3, -5, 5)
-    setup.set_wall(-5, 5, -4, 4)
-    setup.set_wall(-4, 4, -6, 3)
-
-    # Narrow tunnel to nowhere
-    setup.set_wall(6, 4.5, 7.5, 4.8)
-    setup.set_wall(7.5, 4.8, 6.5, 5.5)
-
-    # Sources scattered for max chaos
-    setup.set_source(-7.5, -1.5)
-    setup.set_source(0.5, 0.5)
-    setup.set_source(6.5, 1.5)
-    setup.set_source(-2.5, 4.5)
+    # Sources in all 6 cells (scaled positions)
+    setup.set_source(-3, 1)  # top-left
+    setup.set_source(0, 1)  # top-center
+    setup.set_source(3, 1)  # top-right
+    setup.set_source(-3, -1)  # bottom-left
+    setup.set_source(0, -1)  # bottom-center
+    setup.set_source(3, -1)  # bottom-right
 
     setup.draw()
     setup.run()

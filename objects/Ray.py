@@ -41,13 +41,12 @@ class Ray(Object):
         if self.hitting_surface_type == SurfaceType.SOURCE:
             self.reached_sink = True
 
-
         unit_direction, norm = self._get_unit_direction_and_norm()
         self.x2 = x1 + closest_t * unit_direction[0]
         self.y2 = y1 + closest_t * unit_direction[1]
         self.distance_travelled = closest_t * norm
 
-        # self.distance_travelled = np.linalg.norm(np.array([self.x2 - x1, self.y2 - y1]))
+        # Alternatively: self.distance_travelled = np.linalg.norm(np.array([self.x2 - x1, self.y2 - y1]))
 
         self.hitting_wall_direction_x = wall_direction_x
         self.hitting_wall_direction_y = wall_direction_y
@@ -91,18 +90,8 @@ class Ray(Object):
         if self.reached_sink:
             self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='blue', width=constants.VECTOR_SIZE)
             if self.num_panels_left_to_place > 0 and self.hitting_surface_type == SurfaceType.WALL:
-                print("Hit a wall and reached sink")
-                array_index = self.hitting_surface_ref.get_segment_index_for_point(self.x2, self.y2)
-                print(array_index)
-                print(self.hitting_surface_ref.segments[array_index]['visited'])
-                if not self.hitting_surface_ref.segments[array_index]['visited']:
-                    panel_x1 = self.hitting_surface_ref.segments[array_index]['x1']
-                    panel_x2 = self.hitting_surface_ref.segments[array_index]['x2']
-                    panel_y1 = self.hitting_surface_ref.segments[array_index]['y1']
-                    panel_y2 = self.hitting_surface_ref.segments[array_index]['y2']
-                    print((panel_x1, panel_y1, panel_x2, panel_y2))
-                    self.setup.panel_addition_queue.append((panel_x1, panel_y1, panel_x2, panel_y2))
-                    self.hitting_surface_ref.segments[array_index]['visited'] = True
+                self._add_panel_to_wall_segment()
+
 
 
 
@@ -112,13 +101,13 @@ class Ray(Object):
         # TODO: Type hinting and comments please!
 
     # Private methods
+
     def _get_closest_ray_intersection(self) -> tuple:
         for wall in self.walls:
             if intersection_exits_between_ray_and_line(self.x1, self.y1, self.x1 + self.direction_x, self.y1 + self.direction_y, wall.x1, wall.y1, wall.x2, wall.y2):
                 t, u = calculate_intersection_of_ray_and_line(self.x1, self.y1, self.x1 + self.direction_x, self.y1 + self.direction_y, wall.x1, wall.y1, wall.x2, wall.y2)
                 if not wall.is_point_on_visited_segment(self.x1 + t * self._get_unit_direction_and_norm()[0][0], self.y1 + t * self._get_unit_direction_and_norm()[0][0]):
                     self.candidates.append((t, u, SurfaceType.WALL, wall.x2 - wall.x1, wall.y2 - wall.y1, wall))
-
 
         for panel in self.panels:
             if intersection_exits_between_ray_and_line(self.x1, self.y1, self.x1 + self.direction_x, self.y1 + self.direction_y, panel.x1, panel.y1, panel.x2, panel.y2):
@@ -138,12 +127,21 @@ class Ray(Object):
 
         return closest_t, closest_u, surface_type, wall_direction_x, wall_direction_y, object_ref
 
-    def _get_unit_direction_and_norm(self):
+    def _get_unit_direction_and_norm(self) -> tuple:
         direction_vector = np.array([self.direction_x, self.direction_y])
         norm = np.linalg.norm(direction_vector)
         unit_direction = direction_vector / norm
         return unit_direction, norm
 
+    def _add_panel_to_wall_segment(self) -> None:
+        array_index = self.hitting_surface_ref.get_segment_index_for_point(self.x2, self.y2)
+        if not self.hitting_surface_ref.segments[array_index]['visited']:
+            panel_x1 = self.hitting_surface_ref.segments[array_index]['x1']
+            panel_x2 = self.hitting_surface_ref.segments[array_index]['x2']
+            panel_y1 = self.hitting_surface_ref.segments[array_index]['y1']
+            panel_y2 = self.hitting_surface_ref.segments[array_index]['y2']
+            self.setup.panel_addition_queue.append((panel_x1, panel_y1, panel_x2, panel_y2))
+            self.hitting_surface_ref.segments[array_index]['visited'] = True
 
 
 
