@@ -12,5 +12,5 @@ class Panel(Object):
         self.y2 = y2
 
     def draw(self) -> None:
-        self.ax.plot([self.x1, self.x2], [self.y1, self.y2], color='black', linewidth=4)
+        self.ax.plot([self.x1, self.x2], [self.y1, self.y2], color='grey', linewidth=4)
         plt.draw()

@@ -11,6 +11,9 @@ def decibels_after_x_meters(x: float, decibels: float) -> float:
 def reflected_sound_in_decibels(decibels_in: float, SAC: float) -> float:
     return decibels_in + 10 * math.log10(1 - SAC)
 
+"""def intensity_after_x_meters(x: float, intensity: float) -> float:
+    return """
+
 def distance_to_threshold(decibels: float):
     return 10 ** ((decibels - constants.HEARING_THRESHOLD) / 20)
 
@@ -56,4 +59,14 @@ def reflected_vector(direction_x, direction_y, wall_dx, wall_dy):
     reflected = d - 2 * np.dot(d, normal) * normal
     return reflected[0], reflected[1]
 
+"""def reflected_vector(direction_x, direction_y, wall_direction_x, wall_direction_y):
 
+    theta = math.atan2(- wall_direction_x, wall_direction_y)
+    cos_2t = math.cos(2 * theta)
+    sin_2t = math.sin(2 * theta)
+
+    x_prime = -(cos_2t * direction_x + sin_2t * direction_y)
+    y_prime = -(sin_2t * direction_x - cos_2t * direction_y)
+
+    return x_prime, y_prime
+"""
