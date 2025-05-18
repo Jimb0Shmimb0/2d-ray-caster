@@ -55,19 +55,18 @@ class Setup:
         print(self.panel_addition_queue)
 
         self._get_data_iteration_1()
-
+        # TODO: Fix this
         # If panels have been added, apply them in the new configuration.
-        self._apply_panels()
-
-        input("Enter to run new configuration")
+        # self._apply_panels()
 
         # Clear the plot, redraw the graph with new panels, draw the second set of rays then record the data
-        self.ax.cla()
-        self._draw()
-        self._draw_rays()
+        # plt.pause(8)
+        # self.ax.cla()
+        # self._draw()
+        # self._draw_rays()
 
-        self._get_data_iteration_2()
-        input("Enter to end")
+        # self._get_data_iteration_2()
+        # plt.pause(8)
         return self.return_data_iteration_1, self.return_data_iteration_2, self.panel_addition_queue
 
     # Private methods
@@ -137,12 +136,12 @@ class Setup:
     def _get_data_iteration_1(self) -> None:
         for source in self.sources:
             self.return_data_iteration_1.append((source.x1, source.y1, source.sound_record_array))
-            source.sound_record_array.clear()
+            # TODO: Fix this
 
     def _get_data_iteration_2(self) -> None:
         for source in self.sources:
             self.return_data_iteration_2.append((source.x1, source.y1, source.sound_record_array))
-
+            # TODO: Fix this
 
 
 

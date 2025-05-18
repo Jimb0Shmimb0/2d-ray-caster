@@ -11,9 +11,6 @@ def decibels_after_x_meters(x: float, decibels: float) -> float:
 def reflected_sound_in_decibels(decibels_in: float, SAC: float) -> float:
     return decibels_in + 10 * math.log10(1 - SAC)
 
-"""def intensity_after_x_meters(x: float, intensity: float) -> float:
-    return """
-
 def distance_to_threshold(decibels: float):
     return 10 ** ((decibels - constants.HEARING_THRESHOLD) / 20)
 
@@ -43,23 +40,8 @@ def calculate_intersection_of_ray_and_line(x1 ,y1, x2, y2, x3, y3, x4, y4):
     if t > 1e-10 and 0 <= u <= 1:
         return t, u
 
-def reflected_vector(direction_x, direction_y, wall_dx, wall_dy):
-    # Normalize incoming direction
-    d = np.array([direction_x, direction_y])
-    d = d / np.linalg.norm(d)
 
-    # Wall direction
-    wall = np.array([wall_dx, wall_dy])
-    wall = wall / np.linalg.norm(wall)
-
-    # Normal vector to the wall (perpendicular to wall)
-    normal = np.array([-wall[1], wall[0]])
-
-    # Reflect d over normal
-    reflected = d - 2 * np.dot(d, normal) * normal
-    return reflected[0], reflected[1]
-
-"""def reflected_vector(direction_x, direction_y, wall_direction_x, wall_direction_y):
+def reflected_vector(direction_x, direction_y, wall_direction_x, wall_direction_y):
 
     theta = math.atan2(- wall_direction_x, wall_direction_y)
     cos_2t = math.cos(2 * theta)
@@ -69,4 +51,25 @@ def reflected_vector(direction_x, direction_y, wall_dx, wall_dy):
     y_prime = -(sin_2t * direction_x - cos_2t * direction_y)
 
     return x_prime, y_prime
+
+
+# Alternatively...
 """
+def reflected_vector(direction_x, direction_y, wall_dx, wall_dy):
+    d = np.array([direction_x, direction_y])
+    d = d / np.linalg.norm(d)
+
+    wall = np.array([wall_dx, wall_dy])
+    wall = wall / np.linalg.norm(wall)
+
+    normal = np.array([-wall[1], wall[0]])
+
+    reflected = d - 2 * np.dot(d, normal) * normal
+    return reflected[0], reflected[1]
+"""
+
+
+
+
+
+
