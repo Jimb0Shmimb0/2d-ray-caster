@@ -51,10 +51,12 @@ class Setup:
     def run(self):
         # Draw the plot and the first set of rays
         self._draw()
+        plt.pause(10)
         self._draw_rays()
         print(self.panel_addition_queue)
 
         self._get_data_iteration_1()
+        plt.show()
         # TODO: Fix this
         # If panels have been added, apply them in the new configuration.
         # self._apply_panels()

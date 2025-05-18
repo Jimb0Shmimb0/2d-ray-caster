@@ -63,7 +63,6 @@ class Ray(Object):
             self.distance_travelled = distance_to_threshold(db_level)
 
         if self.reached_sink and self.hitting_surface_ref.is_currently_a_sink:
-            print("Reached a sink")
             db_at_x2_y2 = decibels_after_x_meters(self.distance_travelled, self.db_level)
             self.hitting_surface_ref.sound_record_array.append(db_at_x2_y2)
 

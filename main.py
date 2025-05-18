@@ -76,7 +76,7 @@ def config_3():
 
     setup.set_panel(-2, 4.0, 2, 4.0)
     setup.set_panel(-2, -4.0, 2, -4.0)
-    
+
     # Vertical dividers (scaled x = -2, 2 → -4, 4)
     setup.set_panel(-1.5, -2, -1.5, 2)
     setup.set_panel(1.5, -2, 1.5, 2)
@@ -100,7 +100,6 @@ def config_3():
 def config_4():
     setup = Setup()
 
-    # Outer bounding rectangle (scaled from -6..6 to -12..12 and -2..2 to -4..4)
     setup.set_wall(-12, -4, 12, -4)
     setup.set_wall(12, -4, 12, 4)
     setup.set_wall(12, 4, -12, 4)
