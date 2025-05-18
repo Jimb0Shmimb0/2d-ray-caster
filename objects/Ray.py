@@ -38,6 +38,7 @@ class Ray(Object):
 
         self.hitting_surface_type = surface_type
         self.hitting_surface_ref = object_ref
+
         if self.hitting_surface_type == SurfaceType.SOURCE:
             self.reached_sink = True
 
@@ -60,6 +61,11 @@ class Ray(Object):
             self.reached_sink = False
             self.hitting_surface_type = None
             self.distance_travelled = distance_to_threshold(db_level)
+
+        if self.reached_sink and self.hitting_surface_ref.is_currently_a_sink:
+            print("Reached a sink")
+            db_at_x2_y2 = decibels_after_x_meters(self.distance_travelled, self.db_level)
+            self.hitting_surface_ref.sound_record_array.append(db_at_x2_y2)
 
     def draw(self) -> None:
 
@@ -92,14 +98,6 @@ class Ray(Object):
             if self.num_panels_left_to_place > 0 and self.hitting_surface_type == SurfaceType.WALL:
                 self._add_panel_to_wall_segment()
 
-
-
-
-        # TODO: Implement logic to add panels at the first rebound, second rebound, etc.
-        #  SINKS ALSO NEED TO RECORD SOUND RECEIVED! Refer to design doc
-
-        # TODO: Type hinting and comments please!
-
     # Private methods
 
     def _get_closest_ray_intersection(self) -> tuple:
@@ -123,6 +121,8 @@ class Ray(Object):
                         self.candidates.append((t, u, SurfaceType.SOURCE, x4 - x3, y4 - y3, source))
 
         self.candidates.sort(key=lambda tup: tup[0])
+        if not self.candidates:
+            raise ValueError("Ray did not intersect anything!")
         closest_t, closest_u, surface_type, wall_direction_x, wall_direction_y, object_ref = self.candidates[0]
 
         return closest_t, closest_u, surface_type, wall_direction_x, wall_direction_y, object_ref

@@ -16,6 +16,8 @@ class Setup:
         self.sources = []
         self.panels = []
         self.panel_addition_queue = []
+        self.return_data_iteration_1 = []
+        self.return_data_iteration_2 = []
 
         # Counting
         self.obj_count = 0
@@ -44,7 +46,32 @@ class Setup:
         self.sources.append(Source(x1, y1, self.ax))
         self.obj_count += 1
 
-    def draw(self) -> None:
+
+
+    def run(self):
+        # Draw the plot and the first set of rays
+        self._draw()
+        self._draw_rays()
+        print(self.panel_addition_queue)
+
+        self._get_data_iteration_1()
+
+        # If panels have been added, apply them in the new configuration.
+        self._apply_panels()
+
+        input("Enter to run new configuration")
+
+        # Clear the plot, redraw the graph with new panels, draw the second set of rays then record the data
+        self.ax.cla()
+        self._draw()
+        self._draw_rays()
+
+        self._get_data_iteration_2()
+        input("Enter to end")
+        return self.return_data_iteration_1, self.return_data_iteration_2, self.panel_addition_queue
+
+    # Private methods
+    def _draw(self) -> None:
 
         if self.obj_count > 0:
             #self.ax.set_axis_off()
@@ -64,31 +91,21 @@ class Setup:
             [source.draw() for source in self.sources] if self.sources else None
 
             plt.draw()
-            plt.pause(1)
             self.drawn = True
             return
 
-    def run(self):
+    def _draw_rays(self) -> None:
+        for source in self.sources:
+            source.is_currently_a_sink = False
+            for i in range(constants.NUM_RAYS):
+                angle = i * ((2 * math.pi) / constants.NUM_RAYS)
+                ray = Ray(source.x1 + source.radius * math.cos(angle), source.y1 + source.radius * math.sin(angle),
+                          math.cos(angle), math.sin(angle), constants.SOURCE_SOUND,
+                          constants.PANELS_TO_PLACE_AFTER_EACH_REBOUND, self.ax, self.walls, self.panels, self.sources,
+                          self)
+                ray.draw()
+            source.is_currently_a_sink = True
 
-        if self.drawn:
-            for source in self.sources:
-                source.is_currently_a_sink = False
-                for i in range(constants.NUM_RAYS):
-                    angle = i * ((2 * math.pi) / constants.NUM_RAYS)
-                    ray = Ray(source.x1 + source.radius * math.cos(angle), source.y1 + source.radius * math.sin(angle), math.cos(angle), math.sin(angle), constants.SOURCE_SOUND, constants.PANELS_TO_PLACE_AFTER_EACH_REBOUND, self.ax, self.walls, self.panels, self.sources, self)
-                    ray.draw()
-                source.is_currently_a_sink = True
-            print(self.panel_addition_queue)
-            if self.panel_addition_queue:
-                for panel_x1, panel_y1, panel_x2, panel_y2 in self.panel_addition_queue:
-                    self.set_panel(panel_x1, panel_y1, panel_x2, panel_y2)
-
-            [panel.draw() for panel in self.panels] if self.panels else None
-            plt.draw()
-
-            plt.show()
-
-    # Private methods
     def _resize_window_with_line(self, x1: float, y1: float, x2: float, y2: float) -> None:
         if min(x1, x2) < self.X_MIN:
             self.X_MIN = min(x1, x2)
@@ -108,6 +125,23 @@ class Setup:
             self.Y_MIN = y1 - constants.SOURCE_CIRCLE_RADIUS
         if y1 + constants.SOURCE_CIRCLE_RADIUS > self.Y_MAX:
             self.Y_MAX = y1 + constants.SOURCE_CIRCLE_RADIUS
+
+    def _apply_panels(self) -> None:
+        if self.panel_addition_queue:
+            for panel_x1, panel_y1, panel_x2, panel_y2 in self.panel_addition_queue:
+                self.set_panel(panel_x1, panel_y1, panel_x2, panel_y2)
+
+        [panel.draw() for panel in self.panels] if self.panels else None
+        plt.draw()
+
+    def _get_data_iteration_1(self) -> None:
+        for source in self.sources:
+            self.return_data_iteration_1.append((source.x1, source.y1, source.sound_record_array))
+            source.sound_record_array.clear()
+
+    def _get_data_iteration_2(self) -> None:
+        for source in self.sources:
+            self.return_data_iteration_2.append((source.x1, source.y1, source.sound_record_array))
 
 
 

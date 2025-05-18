@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+
+from objects.Source import Source
 from setup.Setup import Setup
 
 def config_1():
@@ -19,8 +22,10 @@ def config_1():
     setup.set_source(-2.25, 1.5)
     setup.set_source(2.25, 0.5)
 
-    setup.draw()
-    setup.run()
+    data_it_1, data_it_2, panel_locs = setup.run()
+    print(data_it_1)
+    print(data_it_2)
+    print(panel_locs)
 
 def config_2():
     setup = Setup()
@@ -51,8 +56,10 @@ def config_2():
     setup.set_source(-5.5, -2.5)
     setup.set_source(2.5, 2.5)
 
-    setup.draw()
-    setup.run()
+    data_it_1, data_it_2, panel_locs = setup.run()
+    print(data_it_1)
+    print(data_it_2)
+    print(panel_locs)
 
 def config_3():
     setup = Setup()
@@ -77,8 +84,10 @@ def config_3():
     setup.set_source(-5, 0)
     setup.set_source(2, 0)
 
-    setup.draw()
-    setup.run()
+    data_it_1, data_it_2, panel_locs = setup.run()
+    print(data_it_1)
+    print(data_it_2)
+    print(panel_locs)
 
 def config_4():
     setup = Setup()
@@ -104,8 +113,11 @@ def config_4():
     setup.set_source(0, -1)  # bottom-center
     setup.set_source(3, -1)  # bottom-right
 
-    setup.draw()
-    setup.run()
+    data_it_1, data_it_2, panel_locs = setup.run()
+    print(data_it_1)
+    print(data_it_2)
+    print(panel_locs)
+
 
 def main():
     number_of_configurations = 4
