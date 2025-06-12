@@ -1,7 +1,7 @@
 import math
 
 from matplotlib import axes, pyplot as plt
-import constants
+import config
 from .Object import Object
 
 

@@ -3,7 +3,7 @@ from utils.mathutils import calculate_intersection_of_ray_and_line, distance_to_
 from utils.mathutils import intersection_exits_between_ray_and_line
 from typing import List
 from matplotlib import pyplot as plt, axes
-import constants
+import config
 from utils.surface_types import SurfaceType
 from .Object import Object
 from .Panel import Panel
@@ -13,13 +13,35 @@ import numpy as np
 
 
 class Ray(Object):
+    """
+    Class representing a sound ray in an acoustic simulation.
+
+    :param x1: The x-coordinate of the starting point of the ray
+    :param y1: The y-coordinate of the starting point of the ray
+    :param direction_x: The x-component of the direction vector
+    :param direction_y: The y-component of the direction vector
+    :param db_level: The decibel level of the sound ray
+    :param num_panels_left_to_place: Number of panels left to place
+    :param ax: The Axes object for plotting
+    :param walls: List of Wall objects in the simulation
+    :param panels: List of Panel objects in the simulation
+    :param sources: List of Source objects in the simulation
+    :param setup: The setup object for the simulation
+
+    :raises ValueError: If the db_level is below the hearing threshold
+    """
     absorption = constants.SOURCE_SOUND
 
     def __init__(self, x1: float, y1: float, direction_x: float, direction_y: float, db_level: float, num_panels_left_to_place: int, ax: axes.Axes, walls: List[Wall], panels: List[Panel], sources: List[Source], setup):
+        """
 
+        """
+
+        # First, check if the current db level is under the hearing threshold
         if db_level < constants.HEARING_THRESHOLD:
             raise ValueError("Sound ray's dB level is under the hearing threshold")
 
+        # Set all the variables. By default, the sound ray can rebound, and it has not reached the sink yet
         super().__init__(x1, y1, ax)
         self.direction_x = direction_x
         self.direction_y = direction_y
@@ -28,11 +50,14 @@ class Ray(Object):
         self.can_rebound = True
         self.reached_sink = False
 
+        # Setup references to the setup and it's walls, sources and panels
         self.walls = walls
         self.sources = sources
         self.panels = panels
-        self.candidates = []
         self.setup = setup
+
+        # Setup array of possible objects where the ray will hit
+        self.candidates = []
 
         closest_t, closest_u, surface_type, wall_direction_x, wall_direction_y, object_ref = self._get_closest_ray_intersection()
 
@@ -72,7 +97,7 @@ class Ray(Object):
         quiver = self.ax.quiver(self.x1, self.y1, self.x2 - self.x1, self.y2 - self.y1, angles='xy', scale_units='xy', scale=1, color='black', width=constants.VECTOR_SIZE)
         plt.draw()
         plt.pause(constants.TICK) # Pause for a tick before moving on
-
+        input()
         # If the vector
         if self.can_rebound:
 
@@ -100,6 +125,9 @@ class Ray(Object):
     # Private methods
 
     def _get_closest_ray_intersection(self) -> tuple:
+        """
+
+        """
         for wall in self.walls:
             if intersection_exits_between_ray_and_line(self.x1, self.y1, self.x1 + self.direction_x, self.y1 + self.direction_y, wall.x1, wall.y1, wall.x2, wall.y2):
                 t, u = calculate_intersection_of_ray_and_line(self.x1, self.y1, self.x1 + self.direction_x, self.y1 + self.direction_y, wall.x1, wall.y1, wall.x2, wall.y2)

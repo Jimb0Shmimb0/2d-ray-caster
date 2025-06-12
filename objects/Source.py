@@ -1,6 +1,6 @@
 from matplotlib import axes
 import matplotlib.patches as patches
-import constants
+import config
 from .Object import Object
 
 
