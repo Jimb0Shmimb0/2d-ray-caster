@@ -1,5 +1,5 @@
 from matplotlib import axes, pyplot as plt
-import config
+import constants
 from .Object import Object
 
 

@@ -1,6 +1,6 @@
 import math
 import matplotlib.pyplot as plt
-import config
+import constants
 from objects.Panel import Panel
 from objects.Ray import Ray
 from objects.Source import Source

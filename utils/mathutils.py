@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-import config
+import constants
 
 
 def decibels_after_x_meters(x: float, decibels: float) -> float:

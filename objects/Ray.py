@@ -3,7 +3,7 @@ from utils.mathutils import calculate_intersection_of_ray_and_line, distance_to_
 from utils.mathutils import intersection_exits_between_ray_and_line
 from typing import List
 from matplotlib import pyplot as plt, axes
-import config
+import constants
 from utils.surface_types import SurfaceType
 from .Object import Object
 from .Panel import Panel
