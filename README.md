@@ -1,5 +1,5 @@
 # 2d-ray-caster
-This is a 2D ray casting project to simulate sound propagation. It's a VERY UNFINISHED PROJECT!!!!!!
+This is a 2D ray casting project to simulate sound propagation. It's a VERY UNFINISHED PROJECT with SO MUCH SPAGHETTI CODE!!
 
 # Acoustic Foam Placement Optimiser
 This project simulates sound reflections in closed off 2d spaces and identifies optimal locations for acoustic foam placement using a basic 2d ray tracing approach,
